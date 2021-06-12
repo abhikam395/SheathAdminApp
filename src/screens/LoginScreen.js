@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
-
-const blueColor = "#42a5f5"
+import { BLUE } from '../../utils/commoncolors';
 
 export default class LoginScreen extends Component{
 
@@ -38,16 +37,14 @@ export default class LoginScreen extends Component{
                     <TextInput 
                         style={styles.input} 
                         label="Email"
-                        theme={{colors: {primary: blueColor}}}
-                        selectionColor={blueColor}
+                        selectionColor={BLUE}
                         onChangeText={(value) => this.setState({email: value})}
                     />
                     <TextInput 
                         style={styles.input} 
                         label="Password" 
                         secureTextEntry={true}
-                        theme={{colors: {primary: blueColor}}}
-                        selectionColor={blueColor}
+                        selectionColor={BLUE}
                         onChangeText={(value) => this.setState({password: value})}
                     />
                </View>
@@ -81,7 +78,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 26,
         fontWeight: 'bold',
-        color: blueColor
+        color: BLUE
     },
     label: {
         fontSize: 16,
@@ -100,12 +97,12 @@ const styles = StyleSheet.create({
         marginVertical: 20
     },
     forgetLabel: {
-        color: blueColor,
+        color: BLUE,
         fontWeight: 'bold'
     },
     loginButton:{ 
         height: 56,
-        backgroundColor: blueColor,
+        backgroundColor: BLUE,
         marginTop: 20,
         borderRadius: 10,
         justifyContent: 'center',
@@ -126,7 +123,7 @@ const styles = StyleSheet.create({
     registerLabel: {
         fontSize: 15,
         fontWeight: 'bold',
-        color: blueColor
+        color: BLUE
     },  
     bottomLabel: {
         color: 'black',

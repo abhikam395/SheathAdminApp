@@ -1,18 +1,6 @@
-import React, {Component} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import HomeDrawerNavigation from '../navigation/HomeDrawerNavigation';
 
-export default class HomeScreen extends Component{
-    render(){
-        return (
-            <View style={styles.container}>
-                <Text>Home Screen</Text>
-            </View>
-        )
-    }
+export default function(){
+    return <HomeDrawerNavigation />
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    }
-})

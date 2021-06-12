@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
-
-const blueColor = "#42a5f5"
+import { BLUE } from '../../utils/commoncolors';
 
 export default class RegisterScreen extends Component{
 
@@ -41,38 +40,33 @@ export default class RegisterScreen extends Component{
                     <TextInput 
                         style={styles.input} 
                         label="Name"
-                        outlineColor={blueColor}
-                        theme={{colors: {primary: blueColor}}}
-                        selectionColor={blueColor}
+                        outlineColor={BLUE}
+                        selectionColor={BLUE}
                         onChangeText={(value) => this.setState({name: value})}
                     />
                     <TextInput 
                         style={styles.input} 
                         label="Email" 
-                        theme={{colors: {primary: blueColor}}}
-                        selectionColor={blueColor}
+                        selectionColor={BLUE}
                         onChangeText={(value) => this.setState({email: value})}
                     />
                     <TextInput 
                         style={styles.input} 
                         label="Mobile Number"
-                        theme={{colors: {primary: blueColor}}}
-                        selectionColor={blueColor}
+                        selectionColor={BLUE}
                         onChangeText={(value) => this.setState({number: value})}
                         />
                     <TextInput 
                         style={styles.input} 
                         label="Password" 
                         secureTextEntry={true}
-                        theme={{colors: {primary: blueColor}}}
-                        selectionColor={blueColor}
+                        selectionColor={BLUE}
                         onChangeText={(value) => this.setState({password: value})}
                     />
                     <TextInput 
                         style={styles.input} 
                         label="Confirm Password"
-                        theme={{colors: {primary: blueColor}}}
-                        selectionColor={blueColor}
+                        selectionColor={BLUE}
                         secureTextEntry={true}
                         onChangeText={(value) => this.setState({confirmPassword: value})}
                     />
@@ -104,7 +98,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 26,
         fontWeight: 'bold',
-        color: blueColor
+        color: BLUE
     },
     label: {
         fontSize: 16,
@@ -123,12 +117,12 @@ const styles = StyleSheet.create({
         marginVertical: 20
     },
     forgetLabel: {
-        color: blueColor,
+        color: BLUE,
         fontWeight: 'bold'
     },
     registerButton:{ 
         height: 56,
-        backgroundColor: blueColor,
+        backgroundColor: BLUE,
         marginTop: 60,
         borderRadius: 10,
         justifyContent: 'center',
@@ -149,7 +143,7 @@ const styles = StyleSheet.create({
     loginLabel: {
         fontSize: 15,
         fontWeight: 'bold',
-        color: blueColor
+        color: BLUE
     },  
     bottomLabel: {
         color: 'black',
