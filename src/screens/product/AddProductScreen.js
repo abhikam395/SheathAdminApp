@@ -4,15 +4,27 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { TextInput } from 'react-native-paper';
 import { BLUE } from '../../../utils/commoncolors';
 import {launchImageLibrary} from 'react-native-image-picker';
+import { addProduct } from '../../store/actions/productAction';
+import { connect } from 'react-redux';
 
 const initialState = {
     name: null,
-    price: null,
+    price: 0,
+    stock: 0,
     description: null,
     images: []
 }
 
-export default class AddProductScreen extends Component{
+
+const mapDispatchToProps = function(dispatch){
+    return {
+        upload: function(data){
+            dispatch(addProduct(data));
+        }
+    }
+}
+
+class AddProductScreen extends Component{
 
     constructor(){
         super();
@@ -23,8 +35,10 @@ export default class AddProductScreen extends Component{
     }
 
     upload(){
+        let {name, price} = this.state;
+        this.props.upload({name: name, price: price});
         this.setState(initialState);
-        this.props.navigation.goBack();
+        this.props.navigation.navigate('Product');
         ToastAndroid.showWithGravity('Product Uploaded', 500, ToastAndroid.BOTTOM)
     }
 
@@ -61,21 +75,21 @@ export default class AddProductScreen extends Component{
                             placeholder="Name"
                             style={styles.input}
                             mode="outlined"
-                            value={this.state.name}
+                            onChangeText={(text) => this.setState({name: text})}
                         />
                         <TextInput
                             placeholder="Price"
                             style={styles.input}
                             mode="outlined"
                             keyboardType="number-pad"
-                            value={this.state.price}
+                            onChangeText={(text) => this.setState({price: text})}
                         />
                          <TextInput
                             placeholder="Stock"
                             style={styles.input}
                             mode="outlined"
                             keyboardType="number-pad"
-                            value={this.state.price}
+                            onChangeText={(text) => this.setState({stock: text})}
                         />
                         <TextInput
                             placeholder="Description"
@@ -83,7 +97,7 @@ export default class AddProductScreen extends Component{
                             numberOfLines={4}
                             multiline={true}
                             mode="outlined"
-                            value={this.state.description}
+                            onChangeText={(text) => this.setState({description: text})}
                         />
                         {this.state.images.length != 0 && (
                             <Text style={styles.label}>Product Images</Text>
@@ -114,6 +128,8 @@ export default class AddProductScreen extends Component{
         )
     }
 }
+
+export default connect(null, mapDispatchToProps)(AddProductScreen);
 
 const styles = StyleSheet.create({
     container: {

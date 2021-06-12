@@ -1,21 +1,42 @@
 import React, {Component} from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { FAB } from 'react-native-paper';
+import { connect } from 'react-redux';
 import { BLUE } from '../../../utils/commoncolors';
+import { addProducts } from '../../store/actions/productAction';
 import ProductItem from './ProductItem';
 
-export default class ProductsScreen extends Component{
+let products = [
+    {id: 1, name: 'Cloths', price: '1', description: 'asdflkasdlfjasdkflsadf', stock: 1},
+    {id: 2, name: 'Cloths', price: '1', description: 'asdflkasdlfjasdkflsadf', stock: 3},
+    {id: 3, name: 'Cloths', price: '1', description: 'asdflkasdlfjasdkflsadf', stock: 0}, 
+];
+
+function mapDispatchToProps(dispatch){
+    return {
+        fetch: function(){
+            dispatch(addProducts(products));
+        }
+    }
+}
+
+function mapStateToProps(state){ 
+    let {products} = state.product;
+    console.log(state.product.products.length)
+    return {
+        products: state.product.products
+    }
+}
+
+class ProductsScreen extends Component{
 
     constructor(){
         super();
-        this.state = {
-            products: [
-                {id: 1, name: 'Cloths', price: '1', description: 'asdflkasdlfjasdkflsadf', stock: 1},
-                {id: 2, name: 'Cloths', price: '1', description: 'asdflkasdlfjasdkflsadf', stock: 3},
-                {id: 3, name: 'Cloths', price: '1', description: 'asdflkasdlfjasdkflsadf', stock: 0}, 
-            ]
-        }
         this.renderProductItem = this.renderProductItem.bind(this);
+    }
+
+    componentDidMount(){
+        this.props.fetch();
     }
 
     renderProductItem({item}){
@@ -35,23 +56,24 @@ export default class ProductsScreen extends Component{
     }
 
     render(){
-        let {products} = this.state;
+        console.log(this.props.products.length);
         return (
             <View style={styles.container}>
                 <FlatList
-                    data={products}
+                    data={this.props.products}
                     numColumns={2}
                     renderItem={this.renderProductItem}
-                    keyExtractor={item => item.id.toString()}
+                    keyExtractor={(item, index) => index}
                     columnWrapperStyle={{justifyContent: 'space-between'}}
                     ItemSeparatorComponent={() => <View style={styles.separator}/>}>
-
                 </FlatList>
                 {this.renderFabButton()}
             </View>
         )
     }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductsScreen);
 
 const styles = StyleSheet.create({
     container: {
