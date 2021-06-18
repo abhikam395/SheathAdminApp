@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { FAB } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { BLUE } from '../../../utils/commoncolors';
@@ -22,7 +22,6 @@ function mapDispatchToProps(dispatch){
 
 function mapStateToProps(state){ 
     let {products} = state.product;
-    console.log(state.product.products.length)
     return {
         products: state.product.products
     }
@@ -32,11 +31,12 @@ class ProductsScreen extends Component{
 
     constructor(){
         super();
+        this.unsubscribe = null;
         this.renderProductItem = this.renderProductItem.bind(this);
     }
 
     componentDidMount(){
-        this.props.fetch();
+        this.props.fetch(products);
     }
 
     renderProductItem({item}){
@@ -56,7 +56,6 @@ class ProductsScreen extends Component{
     }
 
     render(){
-        console.log(this.props.products.length);
         return (
             <View style={styles.container}>
                 <FlatList

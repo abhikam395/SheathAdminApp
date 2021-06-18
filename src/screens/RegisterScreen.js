@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { TextInput } from 'react-native-paper';
+import { TextInput, HelperText } from 'react-native-paper';
 import { BLUE } from '../../utils/commoncolors';
+import auth from '@react-native-firebase/auth';
 
 export default class RegisterScreen extends Component{
 
@@ -10,12 +11,19 @@ export default class RegisterScreen extends Component{
         this.state = {
             name: null,
             email: null,
-            number: null,
+            phone: null,
             password: null,
             confirmPassword: null,
+            errors: {},
+            status: true,
         }
+        this.signUp = this.signUp.bind(this);
         this.navigateToHomeScreen = this.navigateToHomeScreen.bind(this);
         this.navigateToLoginScreen = this.navigateToLoginScreen.bind(this);
+    }
+
+    componentDidMount(){
+
     }
 
     navigateToLoginScreen(){
@@ -31,7 +39,50 @@ export default class RegisterScreen extends Component{
         });
     }
 
+    signUp(){
+        this.setState({errors: {}});
+        let error = {}
+        let {name, phone, email, password, confirmPassword} = this.state;
+
+        if(name == null || name.length < 3)
+            error.name = name == null ? "Enter name" : "Name should be more than 2 characters";
+        if(email == null || !email.includes("@gmail.com"))
+            error.email = email == null ? "Enter email": "Invaild email";
+        if(phone == null || phone.length != 10){
+            error.phone = phone == null ? "Enter phone number" : "Invalid phone number";
+        }
+        if(password == null || password.length < 6)
+            error.password = password == null ? "Enter password" : "Password must be more than 5 characters";
+        if(confirmPassword == null || confirmPassword != password)
+            error.confirmPassword = confirmPassword == null ? "Enter password" : "Password is not same";
+
+        if(Object.keys(error).length > 0){
+            this.setState({errors: error});
+            return;
+        }
+        this.setState({errors: {}});
+
+        auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then((user) => {
+                console.log(user)
+                let {navigation} = this.props;
+                navigation.navigate("Home")
+            })
+            .catch(error => {
+                if (error.code === 'auth/email-already-in-use') {
+                    this.setState({status: false});
+                }
+              
+                if (error.code === 'auth/invalid-email') {
+                    this.setState({status: false});
+                }
+              
+            })
+    }
+
     render() {
+        let {name, email, phone, password, confirmPassword} = this.state.errors;
         return (
             <SafeAreaView style={styles.container}>
                 <Text style={styles.title}>Register</Text>
@@ -42,38 +93,78 @@ export default class RegisterScreen extends Component{
                         label="Name"
                         outlineColor={BLUE}
                         selectionColor={BLUE}
-                        onChangeText={(value) => this.setState({name: value})}
+                        error={name != undefined}
+                        onFocus={() => this.setState({errors: {}})}
+                        onChangeText={(value) => this.setState({name: value, status: true, errors: {}})}
                     />
+                    {name != undefined && 
+                        <HelperText type="error" visible={name != null}>
+                            {name}
+                        </HelperText> 
+                    }
                     <TextInput 
                         style={styles.input} 
                         label="Email" 
                         selectionColor={BLUE}
-                        onChangeText={(value) => this.setState({email: value})}
+                        keyboardType="email-address"
+                        error={email != undefined}
+                        onFocus={() => this.setState({errors: {}})}
+                        onChangeText={(value) => this.setState({email: value, status: true, errors: {}})}
                     />
+                    {email != undefined && 
+                        <HelperText type="error" visible={email != undefined}>
+                            {email}
+                        </HelperText> 
+                    }
                     <TextInput 
                         style={styles.input} 
                         label="Mobile Number"
                         selectionColor={BLUE}
-                        onChangeText={(value) => this.setState({number: value})}
+                        keyboardType="number-pad"
+                        error={phone != undefined}
+                        onFocus={() => this.setState({errors: {}})}
+                        onChangeText={(value) => this.setState({phone: value, status: true, errors: {}})}
                         />
+                    {phone != undefined && 
+                        <HelperText type="error" visible={phone != undefined}>
+                            {phone}
+                        </HelperText> 
+                    }
                     <TextInput 
                         style={styles.input} 
                         label="Password" 
                         secureTextEntry={true}
                         selectionColor={BLUE}
-                        onChangeText={(value) => this.setState({password: value})}
+                        error={password != undefined}
+                        onFocus={() => this.setState({errors: {}})}
+                        onChangeText={(value) => this.setState({password: value, status: true, errors: {}})}
                     />
+                    {password != undefined && 
+                        <HelperText type="error" visible={password != undefined}>
+                            {password}
+                        </HelperText> 
+                    }
                     <TextInput 
                         style={styles.input} 
                         label="Confirm Password"
                         selectionColor={BLUE}
                         secureTextEntry={true}
-                        onChangeText={(value) => this.setState({confirmPassword: value})}
+                        error={confirmPassword != undefined}
+                        onFocus={() => this.setState({errors: {}})}
+                        onChangeText={(value) => this.setState({confirmPassword: value, status: true})}
                     />
+                    {confirmPassword != undefined && 
+                        <HelperText type="error" visible={confirmPassword != undefined }>
+                            {confirmPassword}
+                        </HelperText> 
+                    }
+                    {this.state.status == false && (
+                        <Text style={styles.errorMessage}>Email already in used</Text>
+                    )}
                </View>
                <TouchableOpacity 
                     style={styles.registerButton}
-                    onPress={this.navigateToHomeScreen}>
+                    onPress={this.signUp}>
                    <Text style={styles.registerLabel}>REGISTER</Text>
                </TouchableOpacity>
                <View style={styles.bottom}>
@@ -151,5 +242,11 @@ const styles = StyleSheet.create({
     },
     loginButton: {
         marginLeft: 5,
+    },
+    errorMessage: {
+        color: 'red',
+        marginTop: 30,
+        fontSize: 14,
+        alignSelf: 'center'
     }
 })

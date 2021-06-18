@@ -1,4 +1,4 @@
-package com.sheathadminapp;
+package com.lazy.sheath;
 
 import android.app.Application;
 import android.content.Context;

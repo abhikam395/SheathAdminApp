@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "893375875544",
+    "project_id": "sheath-9e274",
+    "storage_bucket": "sheath-9e274.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:893375875544:android:731b5dadeafb4a312e4aad",
+        "android_client_info": {
+          "package_name": "com.lazy.sheath"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "893375875544-7lglfki33a1gfmnt67dvmcu99ldeua90.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDV0hh23TGh9sI9p1bGsh2K-QmCxfzq7yE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "893375875544-7lglfki33a1gfmnt67dvmcu99ldeua90.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,4 @@
-package com.sheathadminapp;
+package com.lazy.sheath;
 
 import com.facebook.react.ReactActivity;
 
